@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Obstacle : MonoBehaviour
+public class Obstacle : Unit
 {
-    private void OnTriggerEnter2D(Collider2D collider)
-    {
-        Unit unit = collider.GetComponent<Unit>();
+    private void OnCollisionEnter2D(Collision2D collision)
+    {        
 
-        if (unit && unit is Hero)
+        if (collision.gameObject.tag == "Kill")
         {
-            unit.ReceiveDamage();
+			Destroy(gameObject);
         }
     }
 }

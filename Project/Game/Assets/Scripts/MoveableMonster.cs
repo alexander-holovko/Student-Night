@@ -29,14 +29,12 @@ public class MoveableMonster : Monster
         Move();
     }
 
-    protected override void OnTriggerEnter2D(Collider2D collider)
-    {
-        Unit unit = collider.GetComponent<Unit>();
+     private void OnCollisionEnter2D(Collision2D collision)
+    {        
 
-        if (unit && unit is Hero)
+        if (collision.gameObject.tag == "Kill")
         {
-            if (Mathf.Abs(unit.transform.position.x - transform.position.x) < 0.3F) ReceiveDamage();
-            else unit.ReceiveDamage();
+			Destroy(gameObject);
         }
     }
 
@@ -47,5 +45,8 @@ public class MoveableMonster : Monster
         if (colliders.Length > 0 && colliders.All(x => !x.GetComponent<Hero>())) direction *= -1.0F;
 
         transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, speed * Time.deltaTime);
+		
+		sprite.flipX = direction.x > 0.0F;
+
     }
 }

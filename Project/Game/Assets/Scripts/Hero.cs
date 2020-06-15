@@ -14,7 +14,7 @@ public class Hero : Unit
         get { return lives; }
         set
         {
-            if (value < 5) lives = value;
+            if (value < 6) lives = value;
             livesBar.Refresh();
         }
     }
@@ -52,6 +52,7 @@ public class Hero : Unit
     private void FixedUpdate()
     {
         CheckGround();
+
     }
 
     private void Update()
@@ -95,27 +96,30 @@ public class Hero : Unit
         rigidbody.velocity = Vector3.zero;
         rigidbody.AddForce(transform.up * 8.0F, ForceMode2D.Impulse);
 
-        Debug.Log(lives);
+        //Debug.Log(lives);
     }
 
     private void CheckGround()
     {
+		
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 0.3F);
 
         isGrounded = colliders.Length > 1;
-
+		
         if (!isGrounded) State = HeroState.Jump;
     }
 
-    private void OnTriggerEnter2D(Collider2D collider)
-    {
+	private void OnCollisionEnter2D(Collision2D collision)
+		{        
 
-        Bullet bullet = collider.gameObject.GetComponent<Bullet>();
-        if (bullet && bullet.Parent != gameObject)
-        {
-            ReceiveDamage();
-        }
-    }
+			if (collision.gameObject.tag == "Enemy")
+			{
+				Jump();
+				ReceiveDamage();
+			}
+		}
+
+    
 }
 
 

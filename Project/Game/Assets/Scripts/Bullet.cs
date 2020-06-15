@@ -34,13 +34,11 @@ public class Bullet : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, speed * Time.deltaTime);
     }
 
-    private void OnTriggerEnter2D(Collider2D collider)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        Unit unit = collider.GetComponent<Unit>();
-
-        if (unit && unit.gameObject != parent)
+         if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "Wall")
         {
-            Destroy(gameObject);
+			Destroy(gameObject);
         }
     }
 }

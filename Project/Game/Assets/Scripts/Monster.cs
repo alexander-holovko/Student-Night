@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,20 +9,12 @@ public class Monster : Unit
     protected virtual void Start() { }
     protected virtual void Update() { }
 
-    protected virtual void OnTriggerEnter2D(Collider2D collider)
-    {
-        Bullet bullet = collider.GetComponent<Bullet>();
+     private void OnCollisionEnter2D(Collision2D collision)
+    {        
 
-        if (bullet)
+        if (collision.gameObject.tag == "Kill")
         {
-            ReceiveDamage();
-        }
-
-        Hero hero = collider.GetComponent<Hero>();
-
-        if (hero)
-        {
-            hero.ReceiveDamage();
+			Destroy(gameObject);
         }
     }
 }
